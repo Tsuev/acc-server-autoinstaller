@@ -1,0 +1,12 @@
+{
+  "configVersion": 1,
+  "stabilityControlLevelMax": 0,
+  "disableAutosteer": 1,
+  "disableAutoLights": 0,
+  "disableAutoWiper": 0,
+  "disableAutoEngineStart": 1,
+  "disableAutoPitLimiter": 0,
+  "disableAutoGear": 1,
+  "disableAutoClutch": 1,
+  "disableIdealLine": 0
+}

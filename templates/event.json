@@ -1,0 +1,38 @@
+{
+  "configVersion": 1,
+  "track": "monza",
+  "preRaceWaitingTimeSeconds": 80,
+  "sessionOverTimeSeconds": 120,
+  "ambientTemp": 26,
+  "cloudLevel": 0.1,
+  "rain": 0,
+  "weatherRandomness": 1,
+  "sessions": [
+    {
+      "hourOfDay": 8,
+      "dayOfWeekend": 1,
+      "timeMultiplier": 1,
+      "sessionType": "P",
+      "sessionDurationMinutes": 10
+    },
+    {
+      "hourOfDay": 9,
+      "dayOfWeekend": 2,
+      "timeMultiplier": 1,
+      "sessionType": "Q",
+      "sessionDurationMinutes": 15
+    },
+    {
+      "hourOfDay": 10,
+      "dayOfWeekend": 3,
+      "timeMultiplier": 1,
+      "sessionType": "R",
+      "sessionDurationMinutes": 20
+    }
+  ],
+  "metaData": "",
+  "postQualySeconds": 30,
+  "postRaceSeconds": 30,
+  "simracerWeatherConditions": 0,
+  "isFixedConditionQualification": 0
+}
