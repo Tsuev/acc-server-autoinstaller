@@ -23,8 +23,9 @@ panel — no need to run any commands manually.
 - Ubuntu **22.04 LTS** or **24.04 LTS**
 - **x86_64 (amd64)** architecture
 - **root** privileges (run with `sudo`)
-- Free disk space: **≥ 15 GB** (20+ GB recommended)
-- RAM: **≥ 2 GB** (4+ GB recommended)
+- Free disk space: **≥ 3 GB** (check threshold; a full installation actually needs ~10–20 GB)
+- RAM: **≥ 2 GB** (hard minimum; < 2 GB aborts the install, 2–4 GB is allowed with a warning, 4+ GB is OK)
+  - thresholds are overridable: `MIN_RAM_MB` (default 2048), `REC_RAM_MB` (default 4096)
 - Internet access (for apt, SteamCMD and GitHub)
 - A Steam account that owns ACC (to download the Dedicated Server)
 
@@ -210,8 +211,12 @@ Make sure the panel port is free and open in UFW.
   try again.
 
 ### Not enough disk space
-Free up space and re-run the installer. The minimum requirement is 15 GB; 20+ GB is
-recommended (ACC content with DLC takes several gigabytes).
+Free up space and re-run the installer. The check threshold is 3 GB (override via
+`MIN_DISK_GB`), but a full installation actually needs ~10–20 GB: the ACC Dedicated
+Server content with DLC takes several gigabytes.
+```bash
+sudo MIN_DISK_GB=8 ./install.sh
+```
 
 ### UFW is disabled
 If UFW is not active, the installer still adds the rules, but they only take effect

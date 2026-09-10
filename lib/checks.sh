@@ -61,17 +61,21 @@ check_disk() {
   info "Свободное место: ${avail_gb} GB (OK)"
 }
 
+# Проверка RAM в три уровня:
+#   < MIN_RAM_MB            → отказ (установка отменяется);
+#   MIN_RAM_MB .. REC_RAM_MB → установка разрешена, но с предупреждением;
+#   >= REC_RAM_MB           → OK.
 check_ram() {
   local total_mb
   total_mb="$(awk '/MemTotal/ {print int($2 / 1024)}' /proc/meminfo)"
 
   if ((total_mb < MIN_RAM_MB)); then
-    die "Недостаточно RAM: ${total_mb} MB. Требуется минимум ${MIN_RAM_MB} MB."
+    die "RAM ${total_mb} MB < ${MIN_RAM_MB} MB (2 GB) — установка отменена: недостаточно оперативной памяти."
   fi
 
-  if ((total_mb < 4096)); then
-    warn "RAM ${total_mb} MB — ниже рекомендуемых 4096 MB, сервер может работать нестабильно."
+  if ((total_mb < REC_RAM_MB)); then
+    warn "RAM ${total_mb} MB (диапазон 2–4 GB) — установка разрешена, но объём ниже рекомендуемых ${REC_RAM_MB} MB: сервер может работать нестабильно."
   else
-    info "RAM: ${total_mb} MB (OK)"
+    info "RAM: ${total_mb} MB (>= ${REC_RAM_MB} MB, OK)"
   fi
 }
