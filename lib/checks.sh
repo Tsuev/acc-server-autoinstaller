@@ -5,6 +5,17 @@
 # acc-manager — проверки системы (ОС, архитектура, диск, память, права).
 # =============================================================================
 
+# Версии Ubuntu, поддерживаемые полностью.
+# shellcheck disable=SC2034
+UBUNTU_SUPPORTED_VERSIONS="22.04 24.04"
+# Версии, на которых установка разрешена после явного подтверждения (не тестировались).
+# shellcheck disable=SC2034
+UBUNTU_CONFIRM_VERSIONS="26.04"
+
+# Проверка ОС в три уровня:
+#   22.04 / 24.04 → OK;
+#   26.04         → warning + запрос подтверждения;
+#   иные          → отказ.
 check_os() {
   local os_id os_version
   if [[ ! -f /etc/os-release ]]; then
@@ -19,14 +30,22 @@ check_os() {
     die "Поддерживается только Ubuntu. Обнаружено: ${os_id:-неизвестно}."
   fi
 
-  case "$os_version" in
-    22.04 | 24.04) ;;
-    *)
-      die "Поддерживаются только Ubuntu 22.04 LTS и 24.04 LTS. Обнаружено: ${os_version:-неизвестно}."
-      ;;
-  esac
+  if [[ " $UBUNTU_SUPPORTED_VERSIONS " == *" $os_version "* ]]; then
+    info "ОС: ${PRETTY_NAME:-Ubuntu ${os_version}} (OK)"
+    return 0
+  fi
 
-  info "ОС: ${PRETTY_NAME:-Ubuntu ${os_version}} (OK)"
+  if [[ " $UBUNTU_CONFIRM_VERSIONS " == *" $os_version "* ]]; then
+    warn "ОС: ${PRETTY_NAME:-Ubuntu ${os_version}} — эта версия ещё не тестировалась с установщиком."
+    warn "Установка возможна, но без гарантий: возможны отличия в пакетах wine/systemd."
+    if ! confirm "Продолжить установку на Ubuntu ${os_version} на свой риск?"; then
+      die "Установка отменена пользователем: непроверенная версия ОС (${os_version})."
+    fi
+    warn "Продолжаем на Ubuntu ${os_version} (непроверенная версия, без гарантий)."
+    return 0
+  fi
+
+  die "Поддерживаются только Ubuntu 22.04 LTS и 24.04 LTS. Обнаружено: ${os_version:-неизвестно}."
 }
 
 check_arch() {

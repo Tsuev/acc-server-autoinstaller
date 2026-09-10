@@ -20,7 +20,7 @@ panel — no need to run any commands manually.
 
 ## Requirements
 
-- Ubuntu **22.04 LTS** or **24.04 LTS**
+- Ubuntu **22.04 LTS** or **24.04 LTS** (for **26.04** — a warning and a confirmation prompt)
 - **x86_64 (amd64)** architecture
 - **root** privileges (run with `sudo`)
 - Free disk space: **≥ 3 GB** (check threshold; a full installation actually needs ~10–20 GB)
@@ -31,10 +31,15 @@ panel — no need to run any commands manually.
 
 ## Supported operating systems
 
-| OS               | Architecture | Status    |
-| ---------------- | ------------ | --------- |
-| Ubuntu 22.04 LTS | x86_64       | Supported |
-| Ubuntu 24.04 LTS | x86_64       | Supported |
+| OS               | Architecture | Status                                              |
+| ---------------- | ------------ | --------------------------------------------------- |
+| Ubuntu 22.04 LTS | x86_64       | Fully supported                                     |
+| Ubuntu 24.04 LTS | x86_64       | Fully supported                                     |
+| Ubuntu 26.04     | x86_64       | Warning + confirmation (not tested)                 |
+| Other            | —            | Rejected by the installer                           |
+
+Versions that require confirmation are defined in `lib/checks.sh`
+(`UBUNTU_CONFIRM_VERSIONS`); fully supported ones — in `UBUNTU_SUPPORTED_VERSIONS`.
 
 ## Project structure
 

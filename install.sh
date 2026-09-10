@@ -84,11 +84,9 @@ gather_steam_creds() {
   if [[ -z "$STEAM_GUARD" ]]; then
     local has_guard
     read -r -p "Включён ли Steam Guard (двухфакторная защита)? [y/N]: " has_guard
-    case "${has_guard,,}" in
-      y | yes | д | да)
-        ask_secret "Steam Guard код" STEAM_GUARD
-        ;;
-    esac
+    if is_yes "$has_guard"; then
+      ask_secret "Steam Guard код" STEAM_GUARD
+    fi
   fi
 }
 

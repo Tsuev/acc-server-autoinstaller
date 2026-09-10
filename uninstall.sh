@@ -41,17 +41,20 @@ EOF
 remove_steamcmd_optional() {
   local answer
   read -r -p "Удалить SteamCMD? [Y/n]: " answer
-  if [[ "${answer,,}" == "n" || "${answer,,}" == "no" || "${answer,,}" == "нет" ]]; then
-    if [[ -d "$STEAMCMD_DIR" ]]; then
-      mkdir -p /opt
-      mv "$STEAMCMD_DIR" "/opt/steamcmd" 2>/dev/null \
-        && info "SteamCMD сохранён в /opt/steamcmd." \
-        || warn "Не удалось переместить SteamCMD в /opt/steamcmd."
-    fi
-  else
-    rm -rf "$STEAMCMD_DIR"
-    info "SteamCMD удалён."
-  fi
+  case "$answer" in
+    n | N | no | NO | No | нет | Нет | НЕТ | н | Н)
+      if [[ -d "$STEAMCMD_DIR" ]]; then
+        mkdir -p /opt
+        mv "$STEAMCMD_DIR" "/opt/steamcmd" 2>/dev/null \
+          && info "SteamCMD сохранён в /opt/steamcmd." \
+          || warn "Не удалось переместить SteamCMD в /opt/steamcmd."
+      fi
+      ;;
+    *)
+      rm -rf "$STEAMCMD_DIR"
+      info "SteamCMD удалён."
+      ;;
+  esac
 }
 
 remove_dirs() {
