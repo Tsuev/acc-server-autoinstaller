@@ -1,4 +1,6 @@
-# acc-manager
+# acc-server-autoinstaller
+
+**Русский** | [English](README.en.md)
 
 Open-source CLI-утилита для полностью автоматической установки и удаления
 **Assetto Corsa Competizione Dedicated Server** на Ubuntu.
@@ -59,7 +61,8 @@ acc-server-autoinstaller/
 │   ├── entrylist.json
 │   ├── bop.json
 │   └── assistRules.json
-├── README.md
+├── README.md           # документация (русский)
+├── README.en.md        # документация (English)
 └── LICENSE
 ```
 
