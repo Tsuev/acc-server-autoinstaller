@@ -35,8 +35,8 @@ install_dependencies() {
   add-apt-repository -y universe >/dev/null 2>&1 || true
   apt-get update -y
 
-  info "Установка пакетов: wine, winbind, xvfb, unzip, curl, wget, jq, ufw..."
-  apt-get install -y wine winbind xvfb unzip curl wget jq ufw
+  info "Установка пакетов: wine, winbind, xvfb, xauth, unzip, curl, wget, jq, ufw..."
+  apt-get install -y wine winbind xvfb xauth unzip curl wget jq ufw
 
   # iconv входит в libc-bin; убедимся, что он присутствует.
   if ! has_command iconv; then

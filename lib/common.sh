@@ -123,11 +123,15 @@ run_as_acc() {
 }
 
 # Выполнить команду от имени ACC_USER с переменными окружения Wine.
+# ВАЖНО: все аргументы "$@" должны быть ИСПОЛНЯЕМЫМИ командами (env/timeout/
+# xvfb-run/wineboot/...), а не shell-функциями — иначе `timeout` внутри цепочки
+# не сможет их запустить (exec: not found).
 run_as_acc_wine() {
   runuser -u "$ACC_USER" -- env \
     "WINEPREFIX=${WINE_PREFIX}" \
     "WINEARCH=win64" \
     "WINEDEBUG=-all" \
+    "WINEDLLOVERRIDES=mscoree,mshtml=" \
     "$@"
 }
 

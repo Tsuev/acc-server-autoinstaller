@@ -108,9 +108,9 @@ sudo \
 ### Что делает установщик
 
 1. Проверяет ОС, архитектуру, свободное место, RAM и наличие прав root.
-2. Устанавливает зависимости: Wine, SteamCMD, Xvfb, winbind, unzip, curl, wget, jq, ufw, iconv.
+2. Устанавливает зависимости: Wine, SteamCMD, Xvfb, xauth, winbind, unzip, curl, wget, jq, ufw, iconv.
 3. Создаёт пользователя `acc` (если отсутствует).
-4. Создаёт и инициализирует Wine prefix.
+4. Создаёт Wine prefix (инициализация `wineboot` выполняется под Xvfb, т.к. Wine требует X-дисплей).
 5. Выполняет авторизацию Steam и скачивает ACC Dedicated Server (Steam app id `1430110`).
 6. Скачивает последнюю стабильную версию ACCWeb из GitHub Releases.
 7. Генерирует `config.yml` ACCWeb с путём к Dedicated Server.

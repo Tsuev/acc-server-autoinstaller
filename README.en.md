@@ -108,9 +108,9 @@ sudo \
 ### What the installer does
 
 1. Checks the OS, architecture, free disk space, RAM and root privileges.
-2. Installs dependencies: Wine, SteamCMD, Xvfb, winbind, unzip, curl, wget, jq, ufw, iconv.
+2. Installs dependencies: Wine, SteamCMD, Xvfb, xauth, winbind, unzip, curl, wget, jq, ufw, iconv.
 3. Creates the `acc` user (if it does not exist).
-4. Creates and initializes the Wine prefix.
+4. Creates the Wine prefix (`wineboot` runs under Xvfb, because Wine requires an X display).
 5. Performs Steam authorization and downloads the ACC Dedicated Server (Steam app id `1430110`).
 6. Downloads the latest stable ACCWeb release from GitHub Releases.
 7. Generates ACCWeb's `config.yml` with the path to the Dedicated Server.

@@ -10,6 +10,7 @@ WorkingDirectory=__ACCWEB_DIR__
 Environment=WINEPREFIX=__WINE_PREFIX__
 Environment=WINEARCH=win64
 Environment=WINEDEBUG=-all
+Environment=WINEDLLOVERRIDES=mscoree,mshtml=
 ExecStart=/usr/bin/xvfb-run -a -s "-screen 0 1024x768x24" __ACCWEB_DIR__/accweb
 Restart=on-failure
 RestartSec=5
