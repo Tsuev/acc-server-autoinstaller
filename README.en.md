@@ -192,6 +192,20 @@ and correctly skips already-completed steps.
 
 ## Troubleshooting
 
+### Wine initialization is slow / appears to hang
+The first `wineboot` creates the Wine prefix from scratch — this takes 1–3 minutes
+(longer on a weak VPS). The `wineboot` output is streamed to the console in real
+time, and the timeout is set to 180 seconds (`timeout 180` in `lib/wine.sh`).
+
+If the step still appears to hang, check in a second terminal:
+```bash
+ps aux | grep -E 'wine|Xvfb' | grep -v grep
+tail -n 20 /var/log/acc-manager.log
+ls -la /home/acc/.wine          # drive_c appears as the prefix is created
+```
+The installer automatically adds a `127.0.1.1 <hostname>` entry to `/etc/hosts`
+when the hostname does not resolve — a common cause of Wine hangs on servers.
+
 ### ACCWeb does not respond over HTTP
 ```bash
 sudo systemctl status accweb
