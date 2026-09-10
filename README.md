@@ -70,7 +70,7 @@ acc-server-autoinstaller/
 
 ```bash
 # 1. Склонируйте репозиторий
-git clone https://github.com/<ваш-аккаунт>/acc-server-autoinstaller.git
+git clone https://github.com/Tsuev/acc-server-autoinstaller.git
 cd acc-server-autoinstaller
 
 # 2. Запустите установщик
