@@ -123,11 +123,14 @@ run_as_acc() {
 }
 
 # Выполнить команду от имени ACC_USER с переменными окружения Wine.
+# env -C "$ACC_HOME" меняет рабочий каталог на домашний каталог пользователя:
+# иначе Wine пытается открыть текущий каталог (например, /root/...) и выдаёт
+# "could not open working directory ... starting in the Windows directory".
 # ВАЖНО: все аргументы "$@" должны быть ИСПОЛНЯЕМЫМИ командами (env/timeout/
 # xvfb-run/wineboot/...), а не shell-функциями — иначе `timeout` внутри цепочки
 # не сможет их запустить (exec: not found).
 run_as_acc_wine() {
-  runuser -u "$ACC_USER" -- env \
+  runuser -u "$ACC_USER" -- env -C "$ACC_HOME" \
     "WINEPREFIX=${WINE_PREFIX}" \
     "WINEARCH=win64" \
     "WINEDEBUG=-all" \

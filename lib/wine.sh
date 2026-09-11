@@ -35,13 +35,33 @@ setup_wine_prefix() {
   info "Инициализация Wine prefix (${WINE_PREFIX})."
   info "Первый запуск занимает 1–3 минуты — ниже вывод wineboot в реальном времени:"
 
+  local wine_log wine_pid tail_pid rc=0
+  wine_log="$(mktemp)"
+
+  # ВАЖНО: вывод пишем в ФАЙЛ, а НЕ в пайп (| tee). wineserver держит stdout-pipe
+  # открытым даже после выхода wineboot, из-за чего пайп никогда не получает EOF
+  # и установка «зависает» навсегда. Для «живого» вывода параллельно читаем файл
+  # через `tail -f` и останавливаем его после завершения wineboot.
   # Wine требует X-дисплей даже для wineboot, поэтому запускаем под Xvfb.
   # `timeout` стоит ВНУТРИ цепочки (перед xvfb-run) и оборачивает исполняемую
   # команду — оборачивать им shell-функцию run_as_acc_wine нельзя.
   # WINEDLLOVERRIDES (см. run_as_acc_wine) отключает запросы установки Mono/Gecko.
-  # Вывод wineboot стримится в консоль и одновременно дописывается в лог-файл.
-  if ! run_as_acc_wine timeout 180 \
-    xvfb-run -a -s "-screen 0 1024x768x24" wineboot --init 2>&1 | tee -a "$LOG_FILE"; then
+  run_as_acc_wine timeout 180 \
+    xvfb-run -a -s "-screen 0 1024x768x24" wineboot --init >"$wine_log" 2>&1 &
+  wine_pid=$!
+
+  tail -n +1 -f "$wine_log" 2>/dev/null &
+  tail_pid=$!
+
+  wait "$wine_pid" || rc=$?
+
+  kill "$tail_pid" 2>/dev/null || true
+  wait "$tail_pid" 2>/dev/null || true
+
+  log "[wineboot] $(tail -n 30 "$wine_log")"
+  rm -f "$wine_log"
+
+  if ((rc != 0)); then
     die "Не удалось инициализировать Wine prefix (см. вывод выше и ${LOG_FILE})."
   fi
 
